@@ -97,14 +97,14 @@
 								<td><?= $no++ ?></td>
 								<td><?= $supplier['kode_supp'] ?></td>
 								<td><?= $supplier['nama'] ?></td>
-								<td><?= $supplier['email'] ?></td>
+								<td><?= $supplier['email'] ?: '&mdash;' ?></td>
 								<td><?= $supplier['no_hp'] ?></td>
-								<td><?= $supplier['alamat'] ?></td>
-								<td><?= $supplier['keterangan'] ?></td>
+								<td><?= $supplier['alamat'] ?: '&mdash;' ?></td>
+								<td><?= $supplier['keterangan'] ?: '&mdash;' ?></td>
 								<td><?= $supplier['created_at'] ?></td>
 								<td><?= $supplier['updated_at'] ?></td>
 								<td style="text-align: center;">
-									<a href="<?= base_url('admin/update_supplier/') . $supplier['id_supp'] ?>" class="btn btn-secondary btn-sm">Ubah</a>
+									<a href="<?= base_url('admin/update_supplier/') . $supplier['kode_supp'] ?>" class="btn btn-secondary btn-sm">Ubah</a>
 								</td>
 							</tr>
 						<?php endforeach ?>

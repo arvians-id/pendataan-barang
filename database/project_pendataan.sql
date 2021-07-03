@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2021 at 09:34 PM
+-- Generation Time: Jul 03, 2021 at 05:54 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.3.26
 
@@ -31,7 +31,7 @@ CREATE TABLE `data_barang` (
   `id_brg` bigint(20) UNSIGNED NOT NULL,
   `kode_brg` varchar(20) NOT NULL,
   `nama` varchar(126) NOT NULL,
-  `jenis` enum('makanan','minuman') NOT NULL,
+  `jenis` enum('Makanan','Minuman') NOT NULL,
   `id_satuan` bigint(20) UNSIGNED DEFAULT NULL,
   `total_stok` int(100) NOT NULL,
   `keterangan` varchar(256) DEFAULT NULL,
@@ -44,7 +44,8 @@ CREATE TABLE `data_barang` (
 --
 
 INSERT INTO `data_barang` (`id_brg`, `kode_brg`, `nama`, `jenis`, `id_satuan`, `total_stok`, `keterangan`, `created_at`, `updated_at`) VALUES
-(1, 'BRG-20210702001', 'Tanggo', 'minuman', 5, 0, '', '2021-07-02 01:43:31', '2021-07-02 01:51:59');
+(2, 'BRG-20210702001', 'Tanggo', 'Makanan', 6, 27, '', '2021-07-02 06:33:36', '2021-07-02 06:33:36'),
+(3, 'BRG-20210703002', 'Fruit Tea', 'Minuman', 6, 13, '', '2021-07-03 09:36:30', '2021-07-03 09:36:30');
 
 -- --------------------------------------------------------
 
@@ -57,7 +58,7 @@ CREATE TABLE `data_barang_keluar` (
   `kode_brg_klr` varchar(20) NOT NULL,
   `kode_brg_msk` varchar(20) NOT NULL,
   `kode_brg` varchar(20) NOT NULL,
-  `jml_keluar` bigint(100) NOT NULL,
+  `jml_keluar` int(100) NOT NULL,
   `tgl_keluar` datetime NOT NULL,
   `keterangan` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -75,12 +76,23 @@ CREATE TABLE `data_barang_masuk` (
   `kode_brg_msk` varchar(20) NOT NULL,
   `kode_brg` varchar(20) NOT NULL,
   `kode_supp` varchar(20) NOT NULL,
-  `jml_masuk` bigint(100) NOT NULL,
-  `tgl_masuk` datetime NOT NULL,
+  `jml_masuk` int(100) NOT NULL,
+  `tgl_masuk` date NOT NULL,
   `keterangan` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `data_barang_masuk`
+--
+
+INSERT INTO `data_barang_masuk` (`id_brg_msk`, `kode_brg_msk`, `kode_brg`, `kode_supp`, `jml_masuk`, `tgl_masuk`, `keterangan`, `created_at`, `updated_at`) VALUES
+(51, 'TRBM-20210703001', 'BRG-20210702001', 'SUPP-20210702001', 23, '2021-07-03', '', '2021-07-03 10:07:03', '2021-07-03 10:07:03'),
+(52, 'TRBM-20210703002', 'BRG-20210703002', 'SUPP-20210702001', 5, '2021-07-03', '', '2021-07-03 10:07:16', '2021-07-03 10:07:16'),
+(53, 'TRBM-20210703003', 'BRG-20210702001', 'SUPP-20210702001', 4, '2021-07-03', '', '2021-07-03 10:09:54', '2021-07-03 10:09:54'),
+(55, 'TRBM-20210703004', 'BRG-20210703002', 'SUPP-20210702001', 4, '2021-07-03', '', '2021-07-03 10:12:11', '2021-07-03 10:12:11'),
+(56, 'TRBM-20210703005', 'BRG-20210703002', 'SUPP-20210702001', 4, '2021-07-03', '', '2021-07-03 10:16:27', '2021-07-03 10:16:27');
 
 -- --------------------------------------------------------
 
@@ -100,8 +112,8 @@ CREATE TABLE `data_satuan` (
 --
 
 INSERT INTO `data_satuan` (`id_satuan`, `satuan`, `created_at`, `updated_at`) VALUES
-(4, 'unit', '2021-07-02 12:03:00', '2021-07-02 12:03:05'),
-(5, 'kilo', '2021-07-02 12:04:07', '2021-07-02 12:04:16');
+(6, 'Unit', '2021-07-02 06:33:18', '2021-07-03 01:19:51'),
+(7, 'Kilo', '2021-07-02 06:33:22', '2021-07-02 06:33:22');
 
 -- --------------------------------------------------------
 
@@ -126,7 +138,7 @@ CREATE TABLE `data_supplier` (
 --
 
 INSERT INTO `data_supplier` (`id_supp`, `kode_supp`, `nama`, `email`, `no_hp`, `alamat`, `keterangan`, `created_at`, `updated_at`) VALUES
-(2, 'SUPP-20210702001', 'widdy arfiansyah', 'widdyarfiansyah00@gmail.com', '082299921720', '', '', '2021-07-02 01:11:08', '2021-07-02 01:11:37');
+(3, 'SUPP-20210702001', 'Widdy Arfiansyah', 'widdyarfiansyah00@gmail.com', '082299921720', '', '', '2021-07-02 06:37:42', '2021-07-03 01:20:12');
 
 -- --------------------------------------------------------
 
@@ -179,8 +191,8 @@ ALTER TABLE `data_barang_keluar`
 ALTER TABLE `data_barang_masuk`
   ADD PRIMARY KEY (`id_brg_msk`),
   ADD UNIQUE KEY `kode_brg_msk` (`kode_brg_msk`),
-  ADD UNIQUE KEY `kode_brg` (`kode_brg`),
-  ADD KEY `data_barang_masuk_ibfk_4` (`kode_supp`);
+  ADD KEY `data_barang_masuk_ibfk_4` (`kode_supp`),
+  ADD KEY `kode_brg` (`kode_brg`) USING BTREE;
 
 --
 -- Indexes for table `data_satuan`
@@ -209,7 +221,7 @@ ALTER TABLE `pengguna`
 -- AUTO_INCREMENT for table `data_barang`
 --
 ALTER TABLE `data_barang`
-  MODIFY `id_brg` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_brg` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `data_barang_keluar`
@@ -221,19 +233,19 @@ ALTER TABLE `data_barang_keluar`
 -- AUTO_INCREMENT for table `data_barang_masuk`
 --
 ALTER TABLE `data_barang_masuk`
-  MODIFY `id_brg_msk` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_brg_msk` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `data_satuan`
 --
 ALTER TABLE `data_satuan`
-  MODIFY `id_satuan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_satuan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `data_supplier`
 --
 ALTER TABLE `data_supplier`
-  MODIFY `id_supp` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_supp` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pengguna`

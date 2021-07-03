@@ -6,7 +6,7 @@ class Pengguna_model extends CI_Model
 	public function storePengguna()
 	{
 		$data = [
-			'nama' => $this->input->post('nama'),
+			'nama' => ucwords($this->input->post('nama')),
 			'username' => $this->input->post('username'),
 			'password' => md5($this->input->post('password')),
 			'email' => $this->input->post('email'),

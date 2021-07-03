@@ -41,8 +41,8 @@
 									<label>Jenis</label><span class="text-danger"> *</span>
 									<select name="jenis" class="form-control <?= form_error('jenis') ? 'is-invalid' : '' ?>">
 										<option value="" disabled selected>Pilih</option>
-										<option value="makanan">Makanan</option>
-										<option value="minuman">Minuman</option>
+										<option value="Makanan">Makanan</option>
+										<option value="Minuman">Minuman</option>
 									</select>
 									<div class="invalid-feedback"><?= form_error('jenis') ?></div>
 								</div>
@@ -93,7 +93,7 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="d-flex p-10 no-block">
-						<div class="align-self-center display-6 m-r-20"><i class="text-info icon-Inbox-Out"></i></div>
+						<div class="align-self-center display-6 m-r-20"><i class="text-danger icon-Inbox-Out"></i></div>
 						<div class="align-slef-center">
 							<h2 class="m-b-0"><?= '4' ?></h2>
 							<h6 class="text-muted m-b-0">Barang Keluar</h6>
@@ -117,8 +117,8 @@
 							<th>Kode Barang</th>
 							<th>Nama</th>
 							<th>Jenis</th>
-							<th>Satuan</th>
 							<th>Stok</th>
+							<th>Satuan</th>
 							<th>Keterangan</th>
 							<th>Tanggal Dibuat</th>
 							<th>Terakhir Diubah</th>
@@ -128,18 +128,28 @@
 					<tbody>
 						<?php $no = 1;
 						foreach ($barangs as $barang) : ?>
+							<?php
+							$total_stok = $barang['total_stok'];
+							if ($barang['total_stok'] < 10) {
+								$total_stok = '<div class="btn btn-danger btn-sm">' . $total_stok . '</div>';
+							} elseif ($barang['total_stok'] > 10 && $barang['total_stok'] < 20) {
+								$total_stok = '<div class="btn btn-warning btn-sm">' . $total_stok . '</div>';
+							} elseif ($barang['total_stok'] > 20) {
+								$total_stok = '<div class="btn btn-info btn-sm">' . $total_stok . '</div>';
+							}
+							?>
 							<tr>
 								<td><?= $no++ ?></td>
 								<td><?= $barang['kode_brg'] ?></td>
 								<td><?= $barang['nama'] ?></td>
 								<td><?= $barang['jenis'] ?></td>
-								<td><?= $barang['satuan'] ?></td>
-								<td><?= $barang['total_stok'] ?></td>
-								<td><?= $barang['keterangan'] ?></td>
+								<td><?= $total_stok ?></td>
+								<td><?= $barang['satuan'] ?: '&mdash;' ?></td>
+								<td><?= $barang['keterangan'] ?: '&mdash;' ?></td>
 								<td><?= $barang['created_at'] ?></td>
 								<td><?= $barang['updated_at'] ?></td>
 								<td style="text-align: center;">
-									<a href="<?= base_url('admin/update_barang/') . $barang['id_brg'] ?>" class="btn btn-secondary btn-sm">Ubah</a>
+									<a href="<?= base_url('admin/update_barang/') . $barang['kode_brg'] ?>" class="btn btn-secondary btn-sm">Ubah</a>
 								</td>
 							</tr>
 						<?php endforeach ?>

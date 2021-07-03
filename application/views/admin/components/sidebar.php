@@ -18,10 +18,10 @@
 						<li><a href="<?= base_url('admin/pengguna') ?>" <?= activeMenu(['pengguna', 'update_pengguna']) ?>>Data Pengguna</a></li>
 					</ul>
 				</li>
-				<li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0);" aria-expanded="false"><i class="icon-Handshake"></i><span class="hide-menu">Transaksi</span></a>
+				<li <?= activeMenu(['barang_masuk', 'add_barang_masuk', 'update_barang_masuk', 'barang_keluar', 'add_barang_keluar']) ?>> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0);" aria-expanded="false"><i class="icon-Handshake"></i><span class="hide-menu">Transaksi</span></a>
 					<ul aria-expanded="false" class="collapse">
-						<li><a href="<?= base_url('admin/masuk') ?>">Barang Masuk</a></li>
-						<li><a href="<?= base_url('admin/keluar') ?>">Barang Keluar</a></li>
+						<li><a href="<?= base_url('admin/barang_masuk') ?>" <?= activeMenu(['barang_masuk', 'add_barang_masuk', 'update_barang_masuk']) ?>>Barang Masuk</a></li>
+						<li><a href="<?= base_url('admin/barang_keluar') ?>" <?= activeMenu(['barang_keluar', 'add_barang_keluar']) ?>>Barang Keluar</a></li>
 					</ul>
 				</li>
 				<li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0);" aria-expanded="false"><i class="icon-Box-Full"></i><span class="hide-menu">Kelola Laporan</span></a>

@@ -7,7 +7,7 @@ class Supplier_model extends CI_Model
 	{
 		$data = [
 			'kode_supp' => $this->input->post('kode_supp'),
-			'nama' => $this->input->post('nama'),
+			'nama' => ucwords($this->input->post('nama')),
 			'email' => $this->input->post('email'),
 			'no_hp' => $this->input->post('no_hp'),
 			'alamat' => $this->input->post('alamat'),
@@ -17,17 +17,17 @@ class Supplier_model extends CI_Model
 		];
 		$this->db->insert('data_supplier', $data);
 	}
-	public function updateSupplier($id)
+	public function updateSupplier($kode_supp)
 	{
 		$data = [
-			'nama' => $this->input->post('nama'),
+			'nama' => ucwords($this->input->post('nama')),
 			'email' => $this->input->post('email'),
 			'no_hp' => $this->input->post('no_hp'),
 			'alamat' => $this->input->post('alamat'),
 			'keterangan' => $this->input->post('keterangan'),
 			'updated_at' => date('Y-m-d h:i:s')
 		];
-		$this->db->where('id_supp', $id);
+		$this->db->where('kode_supp', $kode_supp);
 		$this->db->update('data_supplier', $data);
 	}
 	public function getKode()
