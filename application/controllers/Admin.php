@@ -1,9 +1,14 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+// memanggil autoload library phpoffice
+require('./application/third_party/phpoffice/vendor/autoload.php');
+
+// Memanggil namespace class yang berada di library phpoffice
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Admin extends CI_Controller
 {
-	const JAM = (60 * 60 * 24);
 	public function __construct()
 	{
 		parent::__construct();
@@ -439,5 +444,135 @@ class Admin extends CI_Controller
 		$this->barang_m->deleteBarangKeluar($kode_brg_klr); // Update data barang keluar
 		$this->session->set_flashdata('success', 'Data berhasil dihapus, stok barang berubah.'); // Membuat pesan notif jika insert data berhasil
 		redirect('admin/barang_keluar'); // redirect ke halaman barang keluar
+	}
+	public function laporan_barang_masuk()
+	{
+		$this->form_validation->set_rules('awal', 'Awal', 'required');
+		$this->form_validation->set_rules('akhir', 'Akhir', 'required');
+
+		if ($this->form_validation->run() == FALSE) {
+			$data = [
+				'judul' => 'Admin',
+				'viewUtama' => 'admin/contents/laporan_barang_masuk',
+				'cekUser' => $this->db->get_where('pengguna', ['username' => $this->session->userdata('username')])->row_array(),
+			];
+			$this->load->view('admin/layouts/wrapperForm', $data);
+		} else {
+			$awal = $this->input->post('awal');
+			$akhir = $this->input->post('akhir');
+
+			$laporan = $this->barang_m->laporanBarangMasuk($awal, $akhir);
+
+			// Ini Instance untuk export Excel
+			$excel = new Spreadsheet();
+
+			$excel->getProperties()->setCreator('Herlan');
+			$excel->getProperties()->setLastModifiedBy('Herlan');
+			$excel->getProperties()->setTitle('PT ARTA BOGA CEMERLANG');
+			$excel->setActiveSheetIndex(0)
+				->setCellValue('A1', 'No')
+				->setCellValue('B1', 'Kode Transaksi Barang Masuk')
+				->setCellValue('C1', 'Kode/Nama/Satuan Barang')
+				->setCellValue('D1', 'Kode/Supplier')
+				->setCellValue('E1', 'Jumlah Stok Masuk')
+				->setCellValue('F1', 'Tanggal Masuk')
+				->setCellValue('G1', 'Keterangan')
+				->setCellValue('H1', 'Tanggal Di Input');
+			$column = 2;
+			$no = 1;
+			if (!empty($laporan)) {
+				if (is_array($laporan)) {
+					foreach ($laporan as $lap) {
+						$excel->setActiveSheetIndex(0)
+							->setCellValue('A' . $column, $no++)
+							->setCellValue('B' . $column, $lap['kode_brg_msk'])
+							->setCellValue('C' . $column, $lap['kode_brg'] . '/' . $lap['nama_barang'] . '/' . $lap['satuan'])
+							->setCellValue('D' . $column, $lap['kode_supp'] . '/' . $lap['nama_supplier'])
+							->setCellValue('E' . $column, $lap['jml_masuk'])
+							->setCellValue('F' . $column, $lap['tgl_masuk'])
+							->setCellValue('G' . $column, $lap['keterangan_masuk'])
+							->setCellValue('H' . $column, $lap['tgl_dbm']);
+						$column++;
+					}
+				}
+				$writer = new Xlsx($excel);
+				$fileName = bin2hex(random_bytes(12));
+
+				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+				header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
+				header('Cache-Control: max-age=0');
+
+				$writer->save('php://output');
+				exit;
+			} else {
+				$this->session->set_flashdata('error', 'Tidak ada data ditemukan.');
+				redirect('admin/laporan_barang_masuk');
+			}
+		}
+	}
+	public function laporan_barang_keluar()
+	{
+		$this->form_validation->set_rules('awal', 'Awal', 'required');
+		$this->form_validation->set_rules('akhir', 'Akhir', 'required');
+
+		if ($this->form_validation->run() == FALSE) {
+			$data = [
+				'judul' => 'Admin',
+				'viewUtama' => 'admin/contents/laporan_barang_keluar',
+				'cekUser' => $this->db->get_where('pengguna', ['username' => $this->session->userdata('username')])->row_array(),
+			];
+			$this->load->view('admin/layouts/wrapperForm', $data);
+		} else {
+			$awal = $this->input->post('awal');
+			$akhir = $this->input->post('akhir');
+
+			$laporan = $this->barang_m->laporanBarangKeluar($awal, $akhir);
+
+			// Ini Instance untuk export Excel
+			$excel = new Spreadsheet();
+
+			$excel->getProperties()->setCreator('Herlan');
+			$excel->getProperties()->setLastModifiedBy('Herlan');
+			$excel->getProperties()->setTitle('PT ARTA BOGA CEMERLANG');
+			$excel->setActiveSheetIndex(0)
+				->setCellValue('A1', 'No')
+				->setCellValue('B1', 'Kode Transaksi Barang Keluar')
+				->setCellValue('C1', 'Kode/Nama/Satuan Barang')
+				->setCellValue('D1', 'Kode/Customer')
+				->setCellValue('E1', 'Jumlah Stok Keluar')
+				->setCellValue('F1', 'Tanggal Keluar')
+				->setCellValue('G1', 'Keterangan')
+				->setCellValue('H1', 'Tanggal Di Input');
+			$column = 2;
+			$no = 1;
+			if (!empty($laporan)) {
+				if (is_array($laporan)) {
+					foreach ($laporan as $lap) {
+						$excel->setActiveSheetIndex(0)
+							->setCellValue('A' . $column, $no++)
+							->setCellValue('B' . $column, $lap['kode_brg_klr'])
+							->setCellValue('C' . $column, $lap['kode_brg'] . '/' . $lap['nama_barang'] . '/' . $lap['satuan'])
+							->setCellValue('D' . $column, $lap['kode_cus'] . '/' . $lap['nama_customer'])
+							->setCellValue('E' . $column, $lap['jml_keluar'])
+							->setCellValue('F' . $column, $lap['tgl_keluar'])
+							->setCellValue('G' . $column, $lap['keterangan_keluar'])
+							->setCellValue('H' . $column, $lap['tgl_dbk']);
+						$column++;
+					}
+				}
+				$writer = new Xlsx($excel);
+				$fileName = bin2hex(random_bytes(12));
+
+				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+				header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
+				header('Cache-Control: max-age=0');
+
+				$writer->save('php://output');
+				exit;
+			} else {
+				$this->session->set_flashdata('error', 'Tidak ada data ditemukan.');
+				redirect('admin/laporan_barang_keluar');
+			}
+		}
 	}
 }

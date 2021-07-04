@@ -205,4 +205,26 @@ class Barang_model extends CI_Model
 		$this->db->where('kode_brg_klr', $kode_brg_klr);
 		$this->db->delete('data_barang_keluar');
 	}
+	public function laporanBarangMasuk($awal, $akhir)
+	{
+		$this->db->select('*, d.nama as nama_supplier, b.nama as nama_barang, a.created_at as tgl_dbm, a.keterangan as keterangan_masuk');
+		$this->db->from('data_barang_masuk a');
+		$this->db->join('data_barang b', 'a.kode_brg = b.kode_brg');
+		$this->db->join('data_satuan c', 'b.id_satuan = c.id_satuan');
+		$this->db->join('data_supplier d', 'a.kode_supp = d.kode_supp');
+		$this->db->where("DATE(a.created_at) >=", $awal); // Beri kondisi dimana tanggal transaksi lebih dari tanggal di parameter $awal
+		$this->db->where("DATE(a.created_at) <=", $akhir); // Beri kondisi dimana tanggal transaksi kurang dari tanggal di parameter $akhir
+		return $this->db->get()->result_array(); // tampilkan semua data
+	}
+	public function laporanBarangKeluar($awal, $akhir)
+	{
+		$this->db->select('*, d.nama as nama_customer, b.nama as nama_barang, a.created_at as tgl_dbk, a.keterangan as keterangan_keluar');
+		$this->db->from('data_barang_keluar a');
+		$this->db->join('data_barang b', 'a.kode_brg = b.kode_brg');
+		$this->db->join('data_satuan c', 'b.id_satuan = c.id_satuan');
+		$this->db->join('data_customer d', 'a.kode_cus = d.kode_cus');
+		$this->db->where("DATE(a.created_at) >=", $awal); // Beri kondisi dimana tanggal transaksi lebih dari tanggal di parameter $awal
+		$this->db->where("DATE(a.created_at) <=", $akhir); // Beri kondisi dimana tanggal transaksi kurang dari tanggal di parameter $akhir
+		return $this->db->get()->result_array(); // tampilkan semua data
+	}
 }

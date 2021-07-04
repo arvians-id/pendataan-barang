@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 03, 2021 at 05:54 AM
+-- Generation Time: Jul 04, 2021 at 05:21 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.3.26
 
@@ -35,6 +35,7 @@ CREATE TABLE `data_barang` (
   `id_satuan` bigint(20) UNSIGNED DEFAULT NULL,
   `total_stok` int(100) NOT NULL,
   `keterangan` varchar(256) DEFAULT NULL,
+  `photo` varchar(50) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -43,9 +44,10 @@ CREATE TABLE `data_barang` (
 -- Dumping data for table `data_barang`
 --
 
-INSERT INTO `data_barang` (`id_brg`, `kode_brg`, `nama`, `jenis`, `id_satuan`, `total_stok`, `keterangan`, `created_at`, `updated_at`) VALUES
-(2, 'BRG-20210702001', 'Tanggo', 'Makanan', 6, 27, '', '2021-07-02 06:33:36', '2021-07-02 06:33:36'),
-(3, 'BRG-20210703002', 'Fruit Tea', 'Minuman', 6, 13, '', '2021-07-03 09:36:30', '2021-07-03 09:36:30');
+INSERT INTO `data_barang` (`id_brg`, `kode_brg`, `nama`, `jenis`, `id_satuan`, `total_stok`, `keterangan`, `photo`, `created_at`, `updated_at`) VALUES
+(1, 'BRG-2021001', 'Waffer Roma', 'Makanan', 1, 0, 'Gada', '7.jpg', '2021-07-04 06:51:56', '2021-07-04 07:21:31'),
+(2, 'BRG-2021002', 'Ultramilk', 'Minuman', 1, 0, '', 'd4.jpg', '2021-07-04 06:57:05', '2021-07-04 06:59:10'),
+(3, 'BRG-2021003', 'Tanggo', 'Makanan', 1, 0, '', 'default.png', '2021-07-04 07:06:52', '2021-07-04 07:06:52');
 
 -- --------------------------------------------------------
 
@@ -56,14 +58,21 @@ INSERT INTO `data_barang` (`id_brg`, `kode_brg`, `nama`, `jenis`, `id_satuan`, `
 CREATE TABLE `data_barang_keluar` (
   `id_brg_klr` bigint(20) UNSIGNED NOT NULL,
   `kode_brg_klr` varchar(20) NOT NULL,
-  `kode_brg_msk` varchar(20) NOT NULL,
   `kode_brg` varchar(20) NOT NULL,
+  `kode_cus` varchar(35) NOT NULL,
   `jml_keluar` int(100) NOT NULL,
-  `tgl_keluar` datetime NOT NULL,
+  `tgl_keluar` date NOT NULL,
   `keterangan` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `data_barang_keluar`
+--
+
+INSERT INTO `data_barang_keluar` (`id_brg_klr`, `kode_brg_klr`, `kode_brg`, `kode_cus`, `jml_keluar`, `tgl_keluar`, `keterangan`, `created_at`, `updated_at`) VALUES
+(5, 'TRBK-2021001', 'BRG-2021001', 'CUS-2021001', 5, '2021-07-04', 'Gada', '2021-07-04 07:32:30', '2021-07-04 09:35:45');
 
 -- --------------------------------------------------------
 
@@ -88,11 +97,32 @@ CREATE TABLE `data_barang_masuk` (
 --
 
 INSERT INTO `data_barang_masuk` (`id_brg_msk`, `kode_brg_msk`, `kode_brg`, `kode_supp`, `jml_masuk`, `tgl_masuk`, `keterangan`, `created_at`, `updated_at`) VALUES
-(51, 'TRBM-20210703001', 'BRG-20210702001', 'SUPP-20210702001', 23, '2021-07-03', '', '2021-07-03 10:07:03', '2021-07-03 10:07:03'),
-(52, 'TRBM-20210703002', 'BRG-20210703002', 'SUPP-20210702001', 5, '2021-07-03', '', '2021-07-03 10:07:16', '2021-07-03 10:07:16'),
-(53, 'TRBM-20210703003', 'BRG-20210702001', 'SUPP-20210702001', 4, '2021-07-03', '', '2021-07-03 10:09:54', '2021-07-03 10:09:54'),
-(55, 'TRBM-20210703004', 'BRG-20210703002', 'SUPP-20210702001', 4, '2021-07-03', '', '2021-07-03 10:12:11', '2021-07-03 10:12:11'),
-(56, 'TRBM-20210703005', 'BRG-20210703002', 'SUPP-20210702001', 4, '2021-07-03', '', '2021-07-03 10:16:27', '2021-07-03 10:16:27');
+(1, 'TRBM-2021001', 'BRG-2021001', 'SUPP-2021001', 5, '2021-07-05', '', '2021-07-04 07:06:22', '2021-07-04 07:06:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `data_customer`
+--
+
+CREATE TABLE `data_customer` (
+  `id_cus` bigint(20) UNSIGNED NOT NULL,
+  `kode_cus` varchar(35) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `no_hp` varchar(20) NOT NULL,
+  `alamat` varchar(50) DEFAULT NULL,
+  `keterangan` varchar(100) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `data_customer`
+--
+
+INSERT INTO `data_customer` (`id_cus`, `kode_cus`, `nama`, `email`, `no_hp`, `alamat`, `keterangan`, `created_at`, `updated_at`) VALUES
+(1, 'CUS-2021001', 'Siti', '', '082299921720', '', '', '2021-07-04 06:51:33', '2021-07-04 06:51:33');
 
 -- --------------------------------------------------------
 
@@ -112,8 +142,7 @@ CREATE TABLE `data_satuan` (
 --
 
 INSERT INTO `data_satuan` (`id_satuan`, `satuan`, `created_at`, `updated_at`) VALUES
-(6, 'Unit', '2021-07-02 06:33:18', '2021-07-03 01:19:51'),
-(7, 'Kilo', '2021-07-02 06:33:22', '2021-07-02 06:33:22');
+(1, 'Unit', '2021-07-04 06:50:58', '2021-07-04 06:50:58');
 
 -- --------------------------------------------------------
 
@@ -138,7 +167,7 @@ CREATE TABLE `data_supplier` (
 --
 
 INSERT INTO `data_supplier` (`id_supp`, `kode_supp`, `nama`, `email`, `no_hp`, `alamat`, `keterangan`, `created_at`, `updated_at`) VALUES
-(3, 'SUPP-20210702001', 'Widdy Arfiansyah', 'widdyarfiansyah00@gmail.com', '082299921720', '', '', '2021-07-02 06:37:42', '2021-07-03 01:20:12');
+(1, 'SUPP-2021001', 'Jono', 'jono24@gmail.com', '082299921720', '', '', '2021-07-04 06:51:21', '2021-07-04 06:51:21');
 
 -- --------------------------------------------------------
 
@@ -148,11 +177,8 @@ INSERT INTO `data_supplier` (`id_supp`, `kode_supp`, `nama`, `email`, `no_hp`, `
 
 CREATE TABLE `pengguna` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `nama` varchar(25) DEFAULT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(256) NOT NULL,
-  `email` varchar(25) DEFAULT NULL,
-  `no_hp` varchar(25) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -161,9 +187,9 @@ CREATE TABLE `pengguna` (
 -- Dumping data for table `pengguna`
 --
 
-INSERT INTO `pengguna` (`id`, `nama`, `username`, `password`, `email`, `no_hp`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'admin', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, '2021-07-01 17:14:27', '2021-07-01 17:14:27'),
-(2, '', 'arfiiyd', 'd8578edf8458ce06fbc5bb76a58c5ca4', '', '', '2021-07-02 02:28:29', '2021-07-02 02:28:29');
+INSERT INTO `pengguna` (`id`, `username`, `password`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', '2021-07-01 17:14:27', '2021-07-01 17:14:27'),
+(3, 'arfivory', 'e10adc3949ba59abbe56e057f20f883e', '2021-07-04 10:13:36', '2021-07-04 10:13:36');
 
 --
 -- Indexes for dumped tables
@@ -182,8 +208,9 @@ ALTER TABLE `data_barang`
 --
 ALTER TABLE `data_barang_keluar`
   ADD PRIMARY KEY (`id_brg_klr`),
-  ADD UNIQUE KEY `kode_brg_msk` (`kode_brg_msk`),
-  ADD KEY `kode_brg` (`kode_brg`);
+  ADD UNIQUE KEY `kode_brg_klr` (`kode_brg_klr`),
+  ADD KEY `kode_brg` (`kode_brg`),
+  ADD KEY `kode_cus` (`kode_cus`) USING BTREE;
 
 --
 -- Indexes for table `data_barang_masuk`
@@ -193,6 +220,13 @@ ALTER TABLE `data_barang_masuk`
   ADD UNIQUE KEY `kode_brg_msk` (`kode_brg_msk`),
   ADD KEY `data_barang_masuk_ibfk_4` (`kode_supp`),
   ADD KEY `kode_brg` (`kode_brg`) USING BTREE;
+
+--
+-- Indexes for table `data_customer`
+--
+ALTER TABLE `data_customer`
+  ADD PRIMARY KEY (`id_cus`),
+  ADD UNIQUE KEY `kode_cus` (`kode_cus`);
 
 --
 -- Indexes for table `data_satuan`
@@ -227,31 +261,37 @@ ALTER TABLE `data_barang`
 -- AUTO_INCREMENT for table `data_barang_keluar`
 --
 ALTER TABLE `data_barang_keluar`
-  MODIFY `id_brg_klr` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_brg_klr` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `data_barang_masuk`
 --
 ALTER TABLE `data_barang_masuk`
-  MODIFY `id_brg_msk` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id_brg_msk` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `data_customer`
+--
+ALTER TABLE `data_customer`
+  MODIFY `id_cus` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `data_satuan`
 --
 ALTER TABLE `data_satuan`
-  MODIFY `id_satuan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_satuan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `data_supplier`
 --
 ALTER TABLE `data_supplier`
-  MODIFY `id_supp` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_supp` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -268,7 +308,7 @@ ALTER TABLE `data_barang`
 --
 ALTER TABLE `data_barang_keluar`
   ADD CONSTRAINT `data_barang_keluar_ibfk_1` FOREIGN KEY (`kode_brg`) REFERENCES `data_barang` (`kode_brg`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `data_barang_keluar_ibfk_2` FOREIGN KEY (`kode_brg_msk`) REFERENCES `data_barang_masuk` (`kode_brg_msk`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `data_barang_keluar_ibfk_2` FOREIGN KEY (`kode_cus`) REFERENCES `data_customer` (`kode_cus`);
 
 --
 -- Constraints for table `data_barang_masuk`
