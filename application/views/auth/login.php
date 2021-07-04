@@ -35,7 +35,12 @@
 			<div class="card-body">
 				<form method="POST">
 					<input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
-					<a href="javascript:void(0)" class="text-center db mb-3"><img src="<?= base_url() ?>assets/template/adminwrap/assets/images/logo-icon.png" alt="Home" /><br /><img src="<?= base_url() ?>assets/template/adminwrap/assets/images/logo-text.png" alt="Home" /></a>
+					<a href="javascript:void(0)" class="text-center db mb-3">
+						<img src="<?= base_url('assets/mylayout/img/logo1.jpg') ?>" alt="Home" width="90" />
+						<br>
+						<img src="<?= base_url('assets/mylayout/img/logo2.jpg') ?>" alt="Home" width="160" />
+					</a>
+					<h3 class="text-center">PT ARTA BOGA CEMERLANG</h3>
 					<?php if ($this->session->flashdata('success')) : ?>
 						<div class="alert alert-success mt-2" role="alert">
 							<?= $this->session->flashdata('success'); ?>
@@ -63,6 +68,15 @@
 					<div class="form-group text-center m-t-20">
 						<div class="col-xs-12">
 							<button type="submit" class="btn btn-info btn-block text-uppercased" type="submit">Log In</button>
+						</div>
+					</div>
+					<hr>
+					<div class="form-group text-center">
+						<div class="col-xs-12 text-center">
+							<small>Jl. Lingkar Luar Barat Kav. 35-36, Cengkareng
+								<br>Tlp/Fax 0817-700-777 email:customercare@ot.id
+								<br>Jakarta Barat, 11740, Indonesia.
+							</small>
 						</div>
 					</div>
 				</form>

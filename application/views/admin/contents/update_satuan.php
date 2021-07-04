@@ -15,14 +15,6 @@
 			<hr>
 			<div class="row justify-content-center">
 				<div class="col-12 col-lg-8">
-					<?php if ($this->session->flashdata('success')) : ?>
-						<div class="alert alert-success alert-dismissible fade show" role="alert">
-							<?= $this->session->flashdata('success') ?>
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-					<?php endif; ?>
 					<form method="post">
 						<input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
 						<div class="form-group">

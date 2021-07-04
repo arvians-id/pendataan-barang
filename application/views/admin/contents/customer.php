@@ -1,17 +1,17 @@
 <div class="container-fluid">
 	<div class="row page-titles">
 		<div class="col-7 col-md-5 align-self-center">
-			<h3 class="text-themecolor">Data Supplier</h3>
+			<h3 class="text-themecolor">Data Customer</h3>
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="<?= base_url('admin') ?>">Admin</a></li>
-				<li class="breadcrumb-item active">Supplier</li>
+				<li class="breadcrumb-item active">Customer</li>
 			</ol>
 		</div>
 	</div>
 	<!-- row -->
 	<div class="card shadow-sm">
 		<div class="card-body">
-			<h4 class="card-title">Buat Supplier</h4>
+			<h4 class="card-title">Buat Customer</h4>
 			<hr>
 			<div class="row justify-content-center">
 				<div class="col-12">
@@ -35,9 +35,9 @@
 						<div class="row">
 							<div class="col-12 col-lg-6">
 								<div class="form-group">
-									<label>Kode Supplier</label><span class="text-danger"> *</span>
-									<input type="text" class="form-control <?= form_error('kode_supp') ? 'is-invalid' : '' ?>" name="kode_supp" value="<?= $kode_supp ?>" readonly>
-									<div class="invalid-feedback"><?= form_error('kode_supp') ?></div>
+									<label>Kode Customer</label><span class="text-danger"> *</span>
+									<input type="text" class="form-control <?= form_error('kode_cus') ? 'is-invalid' : '' ?>" name="kode_cus" value="<?= $kode_cus ?>" readonly>
+									<div class="invalid-feedback"><?= form_error('kode_cus') ?></div>
 								</div>
 								<div class="form-group">
 									<label>Nama</label><span class="text-danger"> *</span>
@@ -79,14 +79,14 @@
 	<!-- table responsive -->
 	<div class="card shadow-sm">
 		<div class="card-body">
-			<h4 class="card-title">Data Supplier</h4>
+			<h4 class="card-title">Data Customer</h4>
 			<hr>
 			<div class="table-responsive">
 				<table id="my-table" class="table display table-bordered table-striped no-wrap">
 					<thead>
 						<tr>
 							<th style="width: 50px;">No</th>
-							<th>Kode Supplier</th>
+							<th>Kode Customer</th>
 							<th>Nama</th>
 							<th>Email</th>
 							<th>No Handphone</th>
@@ -99,19 +99,19 @@
 					</thead>
 					<tbody>
 						<?php $no = 1;
-						foreach ($suppliers as $supplier) : ?>
+						foreach ($customers as $customer) : ?>
 							<tr>
 								<td><?= $no++ ?></td>
-								<td><?= $supplier['kode_supp'] ?></td>
-								<td><?= $supplier['nama'] ?></td>
-								<td><?= $supplier['email'] ?: '&mdash;' ?></td>
-								<td><?= $supplier['no_hp'] ?></td>
-								<td><?= $supplier['alamat'] ?: '&mdash;' ?></td>
-								<td><?= $supplier['keterangan'] ?: '&mdash;' ?></td>
-								<td><?= $supplier['created_at'] ?></td>
-								<td><?= $supplier['updated_at'] ?></td>
+								<td><?= $customer['kode_cus'] ?></td>
+								<td><?= $customer['nama'] ?></td>
+								<td><?= $customer['email'] ?: '&mdash;' ?></td>
+								<td><?= $customer['no_hp'] ?></td>
+								<td><?= $customer['alamat'] ?: '&mdash;' ?></td>
+								<td><?= $customer['keterangan'] ?: '&mdash;' ?></td>
+								<td><?= $customer['created_at'] ?></td>
+								<td><?= $customer['updated_at'] ?></td>
 								<td style="text-align: center;">
-									<a href="<?= base_url('admin/update_supplier/') . $supplier['kode_supp'] ?>" class="btn btn-secondary btn-sm">Ubah</a>
+									<a href="<?= base_url('admin/update_customer/') . $customer['kode_cus'] ?>" class="btn btn-secondary btn-sm">Ubah</a>
 								</td>
 							</tr>
 						<?php endforeach ?>

@@ -4,7 +4,7 @@
 			<h3 class="text-themecolor">Data Barang</h3>
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="<?= base_url('admin') ?>">Admin</a></li>
-				<li class="breadcrumb-item active"><?= $this->uri->segment(2) ?></li>
+				<li class="breadcrumb-item active">Barang</li>
 			</ol>
 		</div>
 	</div>
@@ -22,8 +22,15 @@
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
+					<?php elseif ($this->session->flashdata('error')) : ?>
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<?= $this->session->flashdata('error') ?>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
 					<?php endif; ?>
-					<form method="post">
+					<form method="post" enctype="multipart/form-data">
 						<input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
 						<div class="row">
 							<div class="col-12 col-lg-6">
@@ -63,6 +70,10 @@
 									<input type="text" class="form-control <?= form_error('keterangan') ? 'is-invalid' : '' ?>" name="keterangan" value="<?= set_value('keterangan') ?>">
 									<div class="invalid-feedback"><?= form_error('keterangan') ?></div>
 								</div>
+								<div class="form-group">
+									<label>Photo</label>
+									<input type="file" class="form-control" name="photo">
+								</div>
 							</div>
 						</div>
 						<button type="submit" class="btn btn-primary">Buat</button>
@@ -80,7 +91,7 @@
 					<div class="d-flex p-10 no-block">
 						<div class="align-self-center display-6 m-r-20"><i class="text-success icon-Inbox-Into"></i></div>
 						<div class="align-slef-center">
-							<h2 class="m-b-0"><?= '4' ?></h2>
+							<h2 class="m-b-0"><?= $barang_masuk ?></h2>
 							<h6 class="text-muted m-b-0">Barang Masuk</h6>
 						</div>
 					</div>
@@ -95,7 +106,7 @@
 					<div class="d-flex p-10 no-block">
 						<div class="align-self-center display-6 m-r-20"><i class="text-danger icon-Inbox-Out"></i></div>
 						<div class="align-slef-center">
-							<h2 class="m-b-0"><?= '4' ?></h2>
+							<h2 class="m-b-0"><?= $barang_keluar ?></h2>
 							<h6 class="text-muted m-b-0">Barang Keluar</h6>
 						</div>
 					</div>
@@ -114,6 +125,7 @@
 					<thead>
 						<tr>
 							<th style="width: 50px;">No</th>
+							<th>Photo</th>
 							<th>Kode Barang</th>
 							<th>Nama</th>
 							<th>Jenis</th>
@@ -140,6 +152,7 @@
 							?>
 							<tr>
 								<td><?= $no++ ?></td>
+								<td><img src="<?= base_url('assets/img-barang/') ?><?= $barang['photo'] ?>" width="50"></td>
 								<td><?= $barang['kode_brg'] ?></td>
 								<td><?= $barang['nama'] ?></td>
 								<td><?= $barang['jenis'] ?></td>

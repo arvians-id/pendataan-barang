@@ -29,14 +29,3 @@ function activeMenu($arrayMenu)
 	$ths = &get_instance();
 	return !in_array($ths->uri->segment(2), $arrayMenu) ?: 'class="active"';
 }
-// Untuk mengaktifkan menu di home
-function activeMenuHome($arrayMenu)
-{
-	$ths = &get_instance();
-	return !in_array($ths->uri->segment(1), $arrayMenu) ?: 'class="active"';
-}
-// Untuk memfilter string yang masuk dari input customer/user
-function xss_filter($input)
-{
-	return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
-}

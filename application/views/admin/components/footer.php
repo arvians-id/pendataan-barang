@@ -1,3 +1,3 @@
 <footer class="footer">
-	© 2021 By Me
+	2021 © PT ARTA BOGA CEMERLANG
 </footer>
